@@ -1,0 +1,15 @@
+Football2026/
+├── Assets/
+│   ├── Scripts/
+│   │   ├── Menu/
+│   │   ├── Player/
+│   │   ├── Ball/
+│   │   ├── AI/
+│   │   ├── UI/
+│   │   ├── Match/
+│   │   └── Online/
+│   ├── Prefabs/
+│   ├── Scenes/
+│   ├── Audio/
+│   ├── Models/
+│   └── Sprites/
