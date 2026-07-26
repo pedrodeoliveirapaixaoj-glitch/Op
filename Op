@@ -1,0 +1,2 @@
+float x = joystick.Horizontal;
+float y = joystick.Vertical;
