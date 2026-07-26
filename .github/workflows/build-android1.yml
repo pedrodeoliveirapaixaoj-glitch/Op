@@ -1,0 +1,32 @@
+.github/workflows/concurrency:name: Build Football APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+        with:
+          targetPlatform: Android
+
+      - name: Enviar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Football-APK
+          path: build/Android/*.apk
