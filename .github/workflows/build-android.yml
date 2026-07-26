@@ -1,0 +1,43 @@
+name: Build Football 2026 Android APK
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK Unity Android
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Baixa o projeto
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+
+      # Compila o projeto Unity
+      - name: Build Unity Android
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+
+        with:
+          targetPlatform: Android
+          buildName: Football2026
+          buildPath: build/Football2026.apk
+
+
+      # Guarda o APK para baixar
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Football2026-APK
+          path: build/Football2026.apk
