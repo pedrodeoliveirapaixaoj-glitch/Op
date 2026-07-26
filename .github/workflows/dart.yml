@@ -1,0 +1,41 @@
+name: Build APK Unity Android
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Criar pasta de Cache (Opcional, melhora performance)
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      - name: Build Unity Android
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: Android
+          # Se o seu jogo Unity NÃO estiver na raiz do repositório, defina o caminho aqui.
+          # Se estiver na raiz, remova ou deixe '.'
+          projectPath: . 
+          
+      - name: Salvar APK como Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-Android
+          path: build/Android
+          
